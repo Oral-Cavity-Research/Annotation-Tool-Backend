@@ -31,6 +31,10 @@ const ImageSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    status: {
+      type: String,
+      default: "New",
+    },
   },
   {
     versionKey: false,
