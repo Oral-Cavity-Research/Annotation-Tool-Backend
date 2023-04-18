@@ -27,6 +27,10 @@ const ImageSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    annotators: [{ 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User'
+    }],
     predicted_cat: {
       type: String,
       default: "",
@@ -35,6 +39,10 @@ const ImageSchema = new mongoose.Schema(
       type: String,
       default: "New",
     },
+    last_comment:{
+      type: mongoose.Types.ObjectId,
+      ref: "AnnotationHistory",
+    }
   },
   {
     versionKey: false,
