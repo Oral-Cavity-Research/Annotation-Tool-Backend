@@ -386,6 +386,7 @@ const isValidAction = (currentState,nextAction)=>{
 
     if(currentState === "New" || 
         currentState === "Marked As Resolved" || 
+        currentState === "Reopened" || 
         currentState === "Reviewed"
     ){
         allowedAction = ["Comment","Save"]
