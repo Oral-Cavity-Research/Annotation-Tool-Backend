@@ -15,7 +15,7 @@ dotenv.config();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "process.env.ORIGIN_URL" }));
 
 // connect to the db
 connectDB();
