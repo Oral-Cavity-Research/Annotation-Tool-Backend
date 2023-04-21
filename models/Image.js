@@ -5,9 +5,13 @@ const ImageSchema = new mongoose.Schema(
     telecon_entry_id: {
       type: mongoose.Types.ObjectId,
       ref: "TeleConEntry",
-      required: true,
+      required: false
     },
     image_name: {
+      type: String,
+      default: "",
+    },
+    image_path: {
       type: String,
       default: "",
     },
