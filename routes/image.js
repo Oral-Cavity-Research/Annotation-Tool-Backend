@@ -92,7 +92,7 @@ router.get("/all", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
-    const pageSize = 20;
+    const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
 
     var condition = {}
@@ -127,7 +127,7 @@ router.get("/mywork", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
-    const pageSize = 20;
+    const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
 
     var condition = {}
@@ -254,7 +254,7 @@ router.get("/approved", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
-    const pageSize = 20;
+    const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
 
     var condition = {status: "Approved"}
@@ -285,7 +285,7 @@ router.get("/mywork/approved", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
-    const pageSize = 20;
+    const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
 
     var condition = {
@@ -320,7 +320,7 @@ router.get("/requests", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
-    const pageSize = 20;
+    const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
 
     var condition = {status: "Review Requested"}
@@ -352,7 +352,7 @@ router.get("/mywork/requests", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
-    const pageSize = 20;
+    const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
 
     var condition = {
