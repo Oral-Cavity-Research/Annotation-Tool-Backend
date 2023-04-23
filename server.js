@@ -54,6 +54,9 @@ app.use("/api/user/upload", UploadRoute);
 const userRoute = require("./routes/user");
 app.use("/api/user/self", userRoute);
 
+const optionRoute = require("./routes/option");
+app.use("/api/option", optionRoute);
+
 const dashboardRoutes = require("./routes/DashboardRoutes/dashboard");
 app.use("/api/dashboard", dashboardRoutes);
 

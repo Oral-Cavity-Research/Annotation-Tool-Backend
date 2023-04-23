@@ -120,6 +120,23 @@ router.get("/all", authenticateToken, async (req, res) => {
     }
 });
 
+// get notifications
+router.get("/notification", authenticateToken, async (req, res) => {
+
+    var condition1 = {status: "Changes Requested", annotators: { $in: [req._id] }}
+    var condition2 = {status: "Review Requested"}
+
+    try {
+        const count1 = await Image.where(condition1).count();
+        const count2 = await Image.where(condition2).count();
+
+        return res.status(200).json({changes:count1, reviews:count2});
+            
+    } catch (err) {
+        return res.status(500).json({ error: err, message: "Internal Server Error!" });
+    }
+});
+
 // get all images
 router.get("/mywork", authenticateToken, async (req, res) => {
 

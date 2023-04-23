@@ -46,6 +46,10 @@ const ImageSchema = new mongoose.Schema(
     last_comment:{
       type: mongoose.Types.ObjectId,
       ref: "AnnotationHistory",
+    },
+    category:{
+      type: String,
+      default: "",
     }
   },
   {
