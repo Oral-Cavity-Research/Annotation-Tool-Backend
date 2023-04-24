@@ -219,7 +219,7 @@ router.get("/mywork/count", authenticateToken, async (req, res) => {
         condition = {status: "Changes Requested", annotators: { $in: [req._id] }}
     }else if(req.query.filter && req.query.filter === "Reviewed"){
         condition = {status: "Reviewed", annotators: { $in: [req._id] }}
-    }else if(req.query.filter && req.query.filter === "Reviewe Requested"){
+    }else if(req.query.filter && req.query.filter === "Review Requested"){
         condition = {status: "Review Requested", annotators: { $in: [req._id] }}
     }else if(req.query.filter && req.query.filter === "Approved"){
         condition = {status: "Approved", annotators: { $in: [req._id] }}

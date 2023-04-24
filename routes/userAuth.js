@@ -98,6 +98,37 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// login
+router.post("/verify", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).json({ message: "User is not registered!" });
+
+    const accessToken = jwt.sign(
+      { sub: user.email, role: user.role },
+      process.env.ACCESS_SECRET,
+      { expiresIn: process.env.REFRESH_TIME }
+    );
+    const refreshToken = generateRefreshToken(user, req.ip);
+    await refreshToken.save();
+
+    setTokenCookie(res, refreshToken.token);
+
+    const rolePermissions = await Role.findOne({ role: user.role});
+
+    // send the user data and refresh, access tokens
+    const { password, ...others } = user._doc;
+    others["message"] = "Successfuly logged in";
+    others["permissions"] = rolePermissions.permissions;
+
+    res.status(200).json({accessToken: { token: accessToken, expiry: process.env.REFRESH_TIME }, ref: user, others});
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err, message: "Internal Server Error!" });
+  }
+});
+
 router.post("/refreshToken", async (req, res) => {
   const token = req.cookies.refreshToken;
   if (!token) return res.status(400).json({ success: false, message: "Token is required" });
