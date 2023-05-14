@@ -186,7 +186,11 @@ router.get("/all/count", authenticateToken, async (req, res) => {
     }else if(req.query.filter && req.query.filter === "New"){
         condition = {status: "New"}
     }else if(req.query.filter && req.query.filter === "Reviewed"){
+        condition = {status: "Review Requested"}
+    }else if(req.query.filter && req.query.filter === "Review Requested"){
         condition = {status: "Reviewed"}
+    }else if(req.query.filter && req.query.filter === "Approved"){
+        condition = {status: "Approved"}
     }else{
         condition = {status : {$in : ["Edited", "New","Marked As Resolved","Reopened","Reviewed"]}}
     }
@@ -215,6 +219,10 @@ router.get("/mywork/count", authenticateToken, async (req, res) => {
         condition = {status: "Changes Requested", annotators: { $in: [req._id] }}
     }else if(req.query.filter && req.query.filter === "Reviewed"){
         condition = {status: "Reviewed", annotators: { $in: [req._id] }}
+    }else if(req.query.filter && req.query.filter === "Review Requested"){
+        condition = {status: "Review Requested", annotators: { $in: [req._id] }}
+    }else if(req.query.filter && req.query.filter === "Approved"){
+        condition = {status: "Approved", annotators: { $in: [req._id] }}
     }else{
         condition = {status : {$in : ["Edited", "New","Marked As Resolved","Reopened","Reviewed"]}, annotators: { $in: [req._id] }}
     }
