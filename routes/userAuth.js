@@ -156,7 +156,7 @@ router.post("/revokeToken", authenticateToken, async (req, res) => {
   const token = authHeader && authHeader.split(" ")[1] || req.cookies.refreshToken;
   // const token = req.body.accessToken || req.cookies.refreshToken;
   const ipAddress = req.ip;
-  // console.log(token);
+  console.log(req.cookies);
 
   if (!token)
     return res.status(400).json({ success: false, message: "Token is required" });
