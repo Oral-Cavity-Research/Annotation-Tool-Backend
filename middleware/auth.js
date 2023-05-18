@@ -80,7 +80,6 @@ const refreshToken = async (token, ipAddress) => {
 
 const revokeToken = async (token, ipAddress) => {
     const refreshToken = await getRefreshToken(token);
-
     // Revoke the refresh token.
     refreshToken.revokedAt = Date.now();
     refreshToken.revokedByIP = ipAddress;
