@@ -414,9 +414,9 @@ const isValidAction = (currentState,nextAction)=>{
         currentState === "Reopened" || 
         currentState === "Reviewed"
     ){
-        allowedAction = ["Comment","Save"]
+        allowedAction = ["Comment","Save", "Approve"]
     }else if(currentState === "Edited"){
-        allowedAction = ["Comment","Save", "Request Review"]
+        allowedAction = ["Comment","Save", "Request Review","Approve"]
     }else if(currentState === "Changes Requested"){
         allowedAction = ["Comment","Save","Mark As Resolved"]
     }else if(currentState === "Review Requested"){
