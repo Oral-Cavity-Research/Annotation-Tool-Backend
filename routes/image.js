@@ -59,7 +59,7 @@ router.post('/annotate/:id', authenticateToken, async(req, res)=>{
         const comment =  await newComment.save();
 
         var data = {};
-        if(nextStatus === "Edited"){
+        if(nextStatus === "Edited" || nextStatus === "Reviewed"){
             data = {
                 location: req.body.location,
                 clinical_diagnosis: req.body.clinical_diagnosis,
@@ -409,13 +409,13 @@ const isValidAction = (currentState,nextAction)=>{
 
     var allowedAction = [];
 
-    if(currentState === "New" || 
-        currentState === "Marked As Resolved" || 
-        currentState === "Reopened" || 
-        currentState === "Reviewed"
-    ){
+    if(currentState === "New"){
         allowedAction = ["Comment","Save", "Approve"]
-    }else if(currentState === "Edited"){
+    }else if(currentState === "Edited" ||
+        currentState === "Reviewed" ||
+        currentState === "Marked As Resolved" || 
+        currentState === "Reopened"
+    ){
         allowedAction = ["Comment","Save", "Request Review","Approve"]
     }else if(currentState === "Changes Requested"){
         allowedAction = ["Comment","Save","Mark As Resolved"]
