@@ -16,7 +16,7 @@ router.get("/filterimages", async (req, res) => {
 
     if (category !== "all") {
       filteredImages = await Image.find({
-        category,
+        category: { $regex: `^${category}$`, $options: "i" },
       })
         .skip(skip)
         .limit(limit);
