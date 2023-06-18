@@ -14,7 +14,7 @@ router.get("/filterimages", async (req, res) => {
     const skip = page && page * 1 > 0 ? (page - 1) * limit : 0;
     // const skip = (page - 1) * limit;
 
-    if (category !== "all") {
+    if (category.toLowerCase() !== "all") {
       filteredImages = await Image.find({
         category: { $regex: `^${category}$`, $options: "i" },
       })
