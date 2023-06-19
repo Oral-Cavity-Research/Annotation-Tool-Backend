@@ -14,7 +14,7 @@ router.get("/filterimages", async (req, res) => {
     const skip = page && page * 1 > 0 ? (page - 1) * limit : 0;
     // const skip = (page - 1) * limit;
 
-    if (category !== "all") {
+    if (category.toLowerCase() !== "all") {
       filteredImages = await Image.find({
         category: { $regex: `^${category}$`, $options: "i" },
       })
@@ -25,9 +25,9 @@ router.get("/filterimages", async (req, res) => {
     }
 
     console.log(req.query);
-    return res.status(200).json({ status: "success", data: filteredImages });
+    return res.status(200).json(filteredImages);
   } catch (err) {
-    return res.status(404).json({ status: err, message: "Unknown category!" });
+    return res.status(404).json({ error: err, message: "Unknown category!" });
   }
 });
 
