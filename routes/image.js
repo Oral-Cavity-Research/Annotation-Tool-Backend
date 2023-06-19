@@ -292,7 +292,7 @@ router.get("/approved", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
@@ -326,7 +326,7 @@ router.get("/mywork/approved", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
@@ -358,7 +358,7 @@ router.get("/requests", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
@@ -393,7 +393,7 @@ router.get("/mywork/requests", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
