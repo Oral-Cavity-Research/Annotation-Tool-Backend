@@ -15,7 +15,7 @@ dotenv.config();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: process.env.ORIGIN_URL}));
+app.use(cors({ credentials: true, origin: process.env.ORIGIN_URL }));
 
 // connect to the db
 connectDB();
@@ -60,6 +60,15 @@ app.use("/api/option", optionRoute);
 const dashboardRoutes = require("./routes/DashboardRoutes/dashboard");
 app.use("/api/dashboard", dashboardRoutes);
 
+const publicRoute = require("./routes/publicdb");
+app.use("/api/publicdb/image", publicRoute);
+
 app.use("/Storage", express.static(path.join(__dirname, "/Storage")));
-app.use("/Storage/images",express.static(path.join(__dirname, "/Storage/images")));
-app.use("/Storage/reports",express.static(path.join(__dirname, "/Storage/reports")));
+app.use(
+  "/Storage/images",
+  express.static(path.join(__dirname, "/Storage/images"))
+);
+app.use(
+  "/Storage/reports",
+  express.static(path.join(__dirname, "/Storage/reports"))
+);
