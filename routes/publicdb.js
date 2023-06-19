@@ -25,9 +25,9 @@ router.get("/filterimages", async (req, res) => {
     }
 
     console.log(req.query);
-    return res.status(200).json({ status: "success", data: filteredImages });
+    return res.status(200).json(filteredImages);
   } catch (err) {
-    return res.status(404).json({ status: err, message: "Unknown category!" });
+    return res.status(404).json({ error: err, message: "Unknown category!" });
   }
 });
 
