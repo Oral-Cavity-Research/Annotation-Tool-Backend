@@ -16,15 +16,15 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    hospital: {
-      type: String,
-      required: true,
-    },
     designation: {
       type: String,
       default: "",
     },
     contact_no: {
+      type: String,
+      default: "",
+    },
+    picture: {
       type: String,
       default: "",
     },

@@ -75,9 +75,8 @@ router.post('/annotate/:id', authenticateToken, async(req, res)=>{
         }
 
         
-        const images = await Image.findByIdAndUpdate(req.params.id, data);
-
-        return res.status(200).json({message:"Image data updated successfully"});
+        const updatedimage = await Image.findByIdAndUpdate(req.params.id, data, { new: true, returnDocument: "after" });
+        return res.status(200).json(updatedimage);
        
     }catch(err){
         console.log(err)
@@ -156,7 +155,7 @@ router.get("/mywork", authenticateToken, async (req, res) => {
     }else if(req.query.filter && req.query.filter === "Reviewed"){
         condition = {status: "Reviewed", annotators: { $in: [req._id] }}
     }else{
-        condition = {status : {$in : ["Edited", "New","Marked As Resolved","Reopened","Reviewed"]}, annotators: { $in: [req._id] }}
+        condition = {status : {$in : ["Edited", "New","Marked As Resolved","Reopened","Reviewed","Changes Requested"]}, annotators: { $in: [req._id] }}
     }
 
     try {
@@ -292,7 +291,7 @@ router.get("/approved", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
@@ -326,7 +325,7 @@ router.get("/mywork/approved", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
@@ -358,7 +357,7 @@ router.get("/requests", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })
@@ -393,7 +392,7 @@ router.get("/mywork/requests", authenticateToken, async (req, res) => {
             populate: [
                 {
                     path: "annotator",
-                    select: "username"
+                    select: "username picture"
                 }
             ]
         })

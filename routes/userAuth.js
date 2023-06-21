@@ -104,6 +104,11 @@ router.post("/verify", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).json({ message: "User is not registered!" });
 
+    if (req.body.picture){
+      user.picture = req.body.picture
+      await user.save();
+    }
+
     const accessToken = jwt.sign(
       { sub: user.email, role: user.role },
       process.env.ACCESS_SECRET,
