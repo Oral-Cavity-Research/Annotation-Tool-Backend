@@ -10,7 +10,6 @@ router.post('/update', authenticateToken, async(req, res)=>{
         const images = await Image.findByIdAndUpdate(req.body._id, {
             location: req.body.location,
             clinical_diagnosis: req.body.clinical_diagnosis,
-            lesions_appear: req.body.lesions_appear,
             annotation: req.body.annotation
         });
 
@@ -63,7 +62,6 @@ router.post('/annotate/:id', authenticateToken, async(req, res)=>{
             data = {
                 location: req.body.location,
                 clinical_diagnosis: req.body.clinical_diagnosis,
-                lesions_appear: req.body.lesions_appear,
                 annotation: req.body.annotation,
                 status : nextStatus,
                 last_comment: comment._id
@@ -74,30 +72,9 @@ router.post('/annotate/:id', authenticateToken, async(req, res)=>{
             data = {status: nextStatus, last_comment: comment._id}
         }
 
-        var status = ""
-    
-        if(image.status === "Changes Requested"){
-            status = "Changes Requested"
-        }else if(image.status === "Approved"){
-            status = "Approved"
-        }else{
-            status = {$in : ["Edited", "New","Marked As Resolved","Reopened","Reviewed","Changes Requested"]}
-        }
-
-        const prevDocuments = await Image.find({ status, _id: { $lt: image._id } },"_id")
-        .sort({ _id : -1 })
-        .limit(1); 
-
-        const nextDocuments = await Image.find({ status, _id: { $gt: image._id } },"_id")
-        .sort({ _id: 1 })
-        .limit(1);
-
-        const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
-        const nextDocument = nextDocuments.length > 0? nextDocuments[0]._id: null
-
         const updatedimage = await Image.findByIdAndUpdate(req.params.id, data, { new: true, returnDocument: "after" });
         
-        return res.status(200).json({...updatedimage._doc, prevImage: prevDocument, nextImage: nextDocument});
+        return res.status(200).json({...updatedimage._doc});
        
     }catch(err){
         console.log(err)
@@ -267,27 +244,44 @@ router.get("/data/:id", authenticateToken, async (req, res) => {
     try {
         const image = await Image.findById(req.params.id,{})
 
-        var status = ""
-    
-        if(image.status === "Changes Requested"){
-            status = "Changes Requested"
-        }else if(image.status === "Approved"){
-            status = "Approved"
-        }else{
-            status = {$in : ["Edited", "New","Marked As Resolved","Reopened","Reviewed","Changes Requested"]}
-        }
-
-        const prevDocuments = await Image.find({ status, _id: { $lt: image._id } },"_id")
+        const prevDocuments = await Image.find({ status: image.status, _id: { $lt: image._id } },"_id")
         .sort({ _id : -1 })
         .limit(1); 
 
-        const nextDocuments = await Image.find({ status, _id: { $gt: image._id } },"_id")
+        const nextDocuments = await Image.find({ status: image.status, _id: { $gt: image._id } },"_id")
         .sort({ _id: 1 })
         .limit(1);
 
         const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
         const nextDocument = nextDocuments.length > 0? nextDocuments[0]._id: null
         return res.status(200).json({...image._doc, prevImage: prevDocument, nextImage: nextDocument});
+            
+    } catch (err) {
+        return res.status(500).json({ error: err, message: "Internal Server Error!" });
+    }
+});
+
+// get prev and next images
+router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
+
+    if(!checkPermissions(req.permissions, [210])){
+        return res.status(401).json({ message: "Unauthorized access"});
+    }
+
+    try {
+        const image = await Image.findById(req.params.id,{})
+
+        const prevDocuments = await Image.find({ status: req.params.status, _id: { $lt: image._id } },"_id")
+        .sort({ _id : -1 })
+        .limit(1); 
+
+        const nextDocuments = await Image.find({ status: req.params.status, _id: { $gt: image._id } },"_id")
+        .sort({ _id: 1 })
+        .limit(1);
+
+        const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
+        const nextDocument = nextDocuments.length > 0? nextDocuments[0]._id: null
+        return res.status(200).json({prev: prevDocument, next: nextDocument});
             
     } catch (err) {
         return res.status(500).json({ error: err, message: "Internal Server Error!" });
