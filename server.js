@@ -63,6 +63,9 @@ app.use("/api/dashboard", dashboardRoutes);
 const publicRoute = require("./routes/publicdb");
 app.use("/api/publicdb/image", publicRoute);
 
+const MLRoute = require("./routes/classification");
+app.use("/api/model", MLRoute);
+
 app.use("/Storage", express.static(path.join(__dirname, "/Storage")));
 app.use(
   "/Storage/images",
