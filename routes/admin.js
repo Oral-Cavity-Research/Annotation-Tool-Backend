@@ -18,10 +18,7 @@ router.get("/requests", authenticateToken, async (req, res) => {
   }
 
   try {
-    const requests = await Request.find(
-      {},
-      { _id: true, username: true, reg_no: true, hospital: true}
-    );
+    const requests = await Request.find();
     return res.status(200).json(requests);
 
   } catch (err) {
@@ -75,7 +72,6 @@ router.post("/requests/:id", authenticateToken, async (req, res) => {
               message:
                 "Request has been deleted! Error: Email notification Failed",
             });
-            return res.status(200).json(others);
           });
       } catch (error) {
         return res.status(500).json({ message: "Request deletion failed" });
@@ -112,13 +108,13 @@ router.post("/accept/:id", authenticateToken, async (req, res) => {
       const newUser = new User({
         username: req.body.username? req.body.username: request.username,
         email: request.email,
-        password: request.password,
         reg_no: request.reg_no,
         role: req.body.role,
         hospital: request.hospital,
         designation: request.designation ? req.body.designation : "",
         contact_no: request.contact_no ? req.body.contact_no : "",
-        availability: true
+        availability: true,
+        picture: request.picture
       });
 
       try {
@@ -158,16 +154,11 @@ router.get("/users/role/:role", authenticateToken, async (req, res) => {
   
   try {
     if(req.params.role === "All"){
-      const users = await User.find(
-        {},
-        { username: 1, _id: 1, reg_no: 1, hospital:1, role: 1 }
-      );
+      const users = await User.find();
       return res.status(200).json(users);
     }else{
       const users = await User.find(
-        { role: req.params.role },
-        { username: 1, _id: 1, reg_no: 1, hospital:1, role: 1 }
-      );
+        { role: req.params.role });
       return res.status(200).json(users);
     }
   } catch (err) {

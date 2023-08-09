@@ -28,9 +28,9 @@ const RequestSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    password: {
+    picture:{
       type: String,
-      required: true,
+      default: "",
     }
   },
   {

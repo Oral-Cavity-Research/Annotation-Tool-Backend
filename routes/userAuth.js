@@ -37,21 +37,18 @@ router.post("/signup", async (req, res) => {
     } else {
 
       try{
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
         const newUserRequest = new Request({
           reg_no: req.body.reg_no,
           username: req.body.username,
           email: req.body.email,
-          password: hashedPassword,
           hospital: req.body.hospital,
           designation: req.body.designation ? req.body.designation : "",
-          contact_no: req.body.contact_no ? req.body.contact_no : ""
+          contact_no: req.body.contact_no ? req.body.contact_no : "",
+          picture: req.body.picture ? req.body.picture : ""
         });
 
         const userRequest = await newUserRequest.save();
-        const { password, ...others } = userRequest._doc;
+        const { ...others } = userRequest._doc;
         others["message"] = "Request is sent successfully. You will receive an Email on acceptance";
         return res.status(200).json(others);
 
@@ -60,40 +57,6 @@ router.post("/signup", async (req, res) => {
       }
     }
   } catch (error) {
-    return res.status(500).json({ error: err, message: "Internal Server Error!" });
-  }
-});
-
-// login
-router.post("/login", async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).json({ message: "Wrong credentials!" });
-
-    const validate = await bcrypt.compare(req.body.password, user.password);
-    if (!validate) return res.status(400).json({ message: "Wrong credentials!" });
-
-    const accessToken = jwt.sign(
-      { sub: user.email, role: user.role },
-      process.env.ACCESS_SECRET,
-      { expiresIn: process.env.REFRESH_TIME }
-    );
-    const refreshToken = generateRefreshToken(user, req.ip);
-    await refreshToken.save();
-
-    setTokenCookie(res, refreshToken.token);
-
-    const rolePermissions = await Role.findOne({ role: user.role});
-
-    // send the user data and refresh, access tokens
-    const { password, ...others } = user._doc;
-    others["message"] = "Successfuly logged in";
-    others["permissions"] = rolePermissions.permissions;
-
-    res.status(200).json({accessToken: { token: accessToken, expiry: process.env.REFRESH_TIME }, ref: user, others});
-
-  } catch (err) {
-    console.log(err);
     return res.status(500).json({ error: err, message: "Internal Server Error!" });
   }
 });
