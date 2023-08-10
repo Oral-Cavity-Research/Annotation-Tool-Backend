@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const request = require('request');
 
 //const PORT = process.env.PORT || 8000;
 const PORT = 5000;
@@ -26,7 +27,20 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Welcome to server! this is server side test");
+  // res.send("Welcome to server! this is server side test");
+  
+    request({
+        url: process.env.ML_BACKEND + "hello",
+        method: "GET",
+        json: true,   // <--Very important!!!
+        body: req.body
+    }, function (error, response, body){
+      if(error){
+        console.log(error)
+      }else{
+        console.log(error)
+      }
+    });    
 });
 
 // import routes
