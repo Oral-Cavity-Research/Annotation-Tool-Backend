@@ -91,10 +91,13 @@ router.get("/all", authenticateToken, async (req, res) => {
 
     const pageSize = 18;
     const page = req.query.page? req.query.page: 1;
+    const search = req.query.search;
 
     var condition = {}
     
-    if(req.query.filter && req.query.filter === "Edited"){
+    if(search && search !== ""){
+        condition = {image_name : { $regex: search, $options: 'i' }}
+    }else if(req.query.filter && req.query.filter === "Edited"){
         condition = {status : {$in : ["Edited", "Marked As Resolved","Reopened"]}}
     }else if(req.query.filter && req.query.filter === "Changes Requested"){
         condition = {status: "Changes Requested"}
@@ -174,9 +177,13 @@ router.get("/all/count", authenticateToken, async (req, res) => {
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
+    const search = req.query.search;
+
     var condition = {}
     
-    if(req.query.filter && req.query.filter === "Edited"){
+    if(search && search !== ""){
+        condition = {image_name : { $regex: search, $options: 'i' }}
+    }else if(req.query.filter && req.query.filter === "Edited"){
         condition = {status : {$in : ["Edited", "Marked As Resolved","Reopened"]}}
     }else if(req.query.filter && req.query.filter === "Changes Requested"){
         condition = {status: "Changes Requested"}
