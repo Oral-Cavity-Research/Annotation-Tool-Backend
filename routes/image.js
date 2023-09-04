@@ -97,6 +97,13 @@ router.get("/all", authenticateToken, async (req, res) => {
     
     if(search && search !== ""){
         condition = {image_name : { $regex: search, $options: 'i' }}
+    }else if(req.query.filter && req.query.filter === "Unannotated"){
+        condition = {
+            $or: [
+              { annotation: { $exists: true, $size: 0 } }, // Empty array if "annotation" exists
+              { annotation: { $exists: false } } // "annotation" does not exist
+            ]
+          }
     }else if(req.query.filter && req.query.filter === "Edited"){
         condition = {status : {$in : ["Edited", "Marked As Resolved","Reopened"]}}
     }else if(req.query.filter && req.query.filter === "Changes Requested"){
@@ -183,6 +190,13 @@ router.get("/all/count", authenticateToken, async (req, res) => {
     
     if(search && search !== ""){
         condition = {image_name : { $regex: search, $options: 'i' }}
+    }else if(req.query.filter && req.query.filter === "Unannotated"){
+        condition = {
+            $or: [
+              { annotation: { $exists: true, $size: 0 } }, // Empty array if "annotation" exists
+              { annotation: { $exists: false } } // "annotation" does not exist
+            ]
+          }
     }else if(req.query.filter && req.query.filter === "Edited"){
         condition = {status : {$in : ["Edited", "Marked As Resolved","Reopened"]}}
     }else if(req.query.filter && req.query.filter === "Changes Requested"){
