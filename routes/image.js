@@ -4,14 +4,60 @@ const Image = require('../models/Image');
 const { authenticateToken, checkPermissions } = require("../middleware/auth");
 const AnnotationHistory = require('../models/AnnotationHistory');
 
-router.post('/update', authenticateToken, async(req, res)=>{
+router.post('/update/:_id', authenticateToken, async(req, res)=>{
     try{
        
-        const images = await Image.findByIdAndUpdate(req.body._id, {
-            location: req.body.location,
-            clinical_diagnosis: req.body.clinical_diagnosis,
-            annotation: req.body.annotation
+        const images = await Image.findByIdAndUpdate(req.params._id, {
+            category: req.body.category
         });
+
+        try{
+            const newComment = new AnnotationHistory({
+                annotator: req._id,
+                image: req.params._id,
+                action: "Commented",
+                title: "Category is updated",
+                comment: `Category is changed from "${req.body.prevCategory}" to "${req.body.category}"`,
+    
+            });
+    
+            const comment =  await newComment.save();
+            const updatedimage = await Image.findByIdAndUpdate(req.params._id, {last_comment:comment._id});
+
+        }catch(e){
+            console.log("error in adding a comment: ",e)
+        }
+
+        return res.status(200).json({message:"Image data updated successfully"});
+
+    }catch(err){
+        return res.status(500).json(err)
+    }
+})
+
+router.post('/availability/:_id', authenticateToken, async(req, res)=>{
+    try{
+       
+        const images = await Image.findByIdAndUpdate(req.params._id, {
+            is_public: req.body.is_public
+        });
+
+        try{
+            const newComment = new AnnotationHistory({
+                annotator: req._id,
+                image: req.params._id,
+                action: "Commented",
+                title: "Public availability is updated",
+                comment: `Availability is changed to "${req.body.is_public}"`,
+    
+            });
+    
+            const comment =  await newComment.save();
+            const updatedimage = await Image.findByIdAndUpdate(req.params._id, {last_comment:comment._id});
+
+        }catch(e){
+            console.log("error in adding a comment: ",e)
+        }
 
         return res.status(200).json({message:"Image data uploaded successfully"});
 
@@ -264,6 +310,7 @@ router.get("/data/:id", authenticateToken, async (req, res) => {
 
     try {
         const image = await Image.findById(req.params.id,{})
+        .populate("last_comment", "action")
 
         const prevDocuments = await Image.find({ status: image.status, _id: { $lt: image._id } },"_id")
         .sort({ _id : -1 })
@@ -318,7 +365,7 @@ router.get("/action/:id", authenticateToken, async (req, res) => {
 
     try {
         const history = await AnnotationHistory.find({image: req.params.id},{}).sort({createdAt: -1})
-        .populate("annotator", "username");
+        .populate("annotator", "username picture");
 
         return res.status(200).json(history);
             

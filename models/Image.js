@@ -50,6 +50,10 @@ const ImageSchema = new mongoose.Schema(
     category:{
       type: String,
       default: "",
+    },
+    is_public:{
+      type: Boolean,
+      default: false
     }
   },
   {
