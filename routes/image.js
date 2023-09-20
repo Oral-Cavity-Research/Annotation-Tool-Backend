@@ -355,7 +355,7 @@ router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
         var prevDocuments = []
         var nextDocuments = []
 
-        if(image.status === "New"){
+        if(req.params.status === "New"){
             prevDocuments = await Image.find({ status: req.params.status, _id: { $lt: image._id } },"_id")
             .sort({ _id : -1 })
             .limit(1); 
