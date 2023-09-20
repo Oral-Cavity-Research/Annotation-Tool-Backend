@@ -313,11 +313,11 @@ router.get("/data/:id", authenticateToken, async (req, res) => {
         .populate("last_comment", "action")
 
         const prevDocuments = await Image.find({ status: image.status, _id: { $lt: image._id } },"_id")
-        .sort({ _id : -1 })
+        .sort({ updatedAt : -1 })
         .limit(1); 
 
         const nextDocuments = await Image.find({ status: image.status, _id: { $gt: image._id } },"_id")
-        .sort({ _id: 1 })
+        .sort({ updatedAt: 1 })
         .limit(1);
 
         const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
@@ -340,11 +340,11 @@ router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
         const image = await Image.findById(req.params.id,{})
 
         const prevDocuments = await Image.find({ status: req.params.status, _id: { $lt: image._id } },"_id")
-        .sort({ _id : -1 })
+        .sort({ updatedAt : -1 })
         .limit(1); 
 
         const nextDocuments = await Image.find({ status: req.params.status, _id: { $gt: image._id } },"_id")
-        .sort({ _id: 1 })
+        .sort({ updatedAt: 1 })
         .limit(1);
 
         const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
