@@ -325,7 +325,7 @@ router.get("/data/:id", authenticateToken, async (req, res) => {
             .limit(1);
         }else{
             prevDocuments = await Image.find({ status: image.status, updatedAt: { $gt: image.updatedAt } },"_id")
-            .sort({ updatedAt : -1 })
+            .sort({ updatedAt : 1 })
             .limit(1); 
 
             nextDocuments = await Image.find({ status: image.status, updatedAt: { $lt: image.updatedAt } },"_id")
@@ -365,7 +365,7 @@ router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
             .limit(1);
         }else{
             prevDocuments = await Image.find({ status: req.params.status, updatedAt: { $gt: image.updatedAt } },"_id")
-            .sort({ updatedAt : -1 })
+            .sort({ updatedAt : 1 })
             .limit(1); 
 
             nextDocuments = await Image.find({ status: req.params.status, updatedAt: { $lt: image.updatedAt } },"_id")
