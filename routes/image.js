@@ -315,23 +315,15 @@ router.get("/data/:id", authenticateToken, async (req, res) => {
         var prevDocuments = []
         var nextDocuments = []
 
-        if(image.status === "New"){
-            prevDocuments = await Image.find({ status: image.status, _id: { $lt: image._id } },"_id")
-            .sort({ _id : -1 })
-            .limit(1); 
+       
+        prevDocuments = await Image.find({ status: image.status, image_name: { $lt: image.image_name } },"_id")
+        .sort({ image_name : -1 })
+        .limit(1); 
 
-            nextDocuments = await Image.find({ status: image.status, _id: { $gt: image._id } },"_id")
-            .sort({ _id : 1 })
-            .limit(1);
-        }else{
-            prevDocuments = await Image.find({ status: image.status, updatedAt: { $gt: image.updatedAt } },"_id")
-            .sort({ updatedAt : 1 })
-            .limit(1); 
-
-            nextDocuments = await Image.find({ status: image.status, updatedAt: { $lt: image.updatedAt } },"_id")
-            .sort({ updatedAt: -1 })
-            .limit(1);
-        }
+        nextDocuments = await Image.find({ status: image.status, image_name: { $gt: image.image_name } },"_id")
+        .sort({ image_name: 1 })
+        .limit(1);
+        
 
         const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
         const nextDocument = nextDocuments.length > 0? nextDocuments[0]._id: null
@@ -355,24 +347,14 @@ router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
         var prevDocuments = []
         var nextDocuments = []
 
-        if(req.params.status === "New"){
-            prevDocuments = await Image.find({ status: req.params.status, _id: { $lt: image._id } },"_id")
-            .sort({ _id : -1 })
-            .limit(1); 
+        prevDocuments = await Image.find({ status: req.params.status, image_name: { $lt: image.image_name } },"_id")
+        .sort({ image_name : -1 })
+        .limit(1); 
 
-            nextDocuments = await Image.find({ status: req.params.status, _id: { $gt: image._id } },"_id")
-            .sort({ _id : 1 })
-            .limit(1);
-        }else{
-            prevDocuments = await Image.find({ status: req.params.status, updatedAt: { $gt: image.updatedAt } },"_id")
-            .sort({ updatedAt : 1 })
-            .limit(1); 
-
-            nextDocuments = await Image.find({ status: req.params.status, updatedAt: { $lt: image.updatedAt } },"_id")
-            .sort({ updatedAt: -1 })
-            .limit(1);
-        }
-
+        nextDocuments = await Image.find({ status: req.params.status, image_name: { $gt: image.image_name } },"_id")
+        .sort({ image_name: 1 })
+        .limit(1);
+        
         const prevDocument = prevDocuments.length > 0? prevDocuments[0]._id: null
         const nextDocument = nextDocuments.length > 0? nextDocuments[0]._id: null
         return res.status(200).json({prev: prevDocument, next: nextDocument});
