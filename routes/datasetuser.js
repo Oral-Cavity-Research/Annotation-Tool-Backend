@@ -36,11 +36,11 @@ router.post("/download",async(req,res)=>{
     case "OCA.zip":
       return res.download('Storage/dataset/OCA.zip');
     case "Annotation.json":
-      return res.download('Storage/dataset/Annotation.json');
+      return res.download('Storage/dataset/annotationToolDB.images.json');
     case "Patientwise_data.csv":
-      return res.download('Storage/dataset/Patientwise_Data.csv');
+      return res.download('Storage/dataset/Patientwise_Data.xlsx');
     case "Imagewise_data.csv":
-      return res.download('Storage/dataset/Imagewise_Data.csv');
+      return res.download('Storage/dataset/Imagewise_Data.xlsx');
     default:
       return res.status(404).json({ message: "File not found" });
   }
