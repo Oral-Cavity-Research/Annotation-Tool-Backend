@@ -5,6 +5,11 @@ const { authenticateToken, checkPermissions } = require("../middleware/auth");
 const AnnotationHistory = require('../models/AnnotationHistory');
 
 router.post('/update/:_id', authenticateToken, async(req, res)=>{
+
+    if(!checkPermissions(req.permissions, [210])){
+        return res.status(401).json({ message: "Unauthorized access"});
+    }
+
     try{
        
         const images = await Image.findByIdAndUpdate(req.params._id, {
@@ -36,6 +41,11 @@ router.post('/update/:_id', authenticateToken, async(req, res)=>{
 })
 
 router.post('/availability/:_id', authenticateToken, async(req, res)=>{
+
+    if(!checkPermissions(req.permissions, [210])){
+        return res.status(401).json({ message: "Unauthorized access"});
+    }
+
     try{
        
         const images = await Image.findByIdAndUpdate(req.params._id, {
@@ -131,7 +141,7 @@ router.post('/annotate/:id', authenticateToken, async(req, res)=>{
 // get all images
 router.get("/all", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -193,7 +203,7 @@ router.get("/notification", authenticateToken, async (req, res) => {
 // get all images
 router.get("/mywork", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -226,7 +236,7 @@ router.get("/mywork", authenticateToken, async (req, res) => {
 // get image count
 router.get("/all/count", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -271,7 +281,7 @@ router.get("/all/count", authenticateToken, async (req, res) => {
 // get mywork image count
 router.get("/mywork/count", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -304,7 +314,7 @@ router.get("/mywork/count", authenticateToken, async (req, res) => {
 // get one image
 router.get("/data/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -337,7 +347,7 @@ router.get("/data/:id", authenticateToken, async (req, res) => {
 // get prev and next images
 router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -367,7 +377,7 @@ router.get("/navigation/:id/:status", authenticateToken, async (req, res) => {
 // get all action history
 router.get("/action/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -385,7 +395,7 @@ router.get("/action/:id", authenticateToken, async (req, res) => {
 // get all approved images
 router.get("/approved", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -416,7 +426,7 @@ router.get("/approved", authenticateToken, async (req, res) => {
 // get mywork approved images
 router.get("/mywork/approved", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -451,7 +461,7 @@ router.get("/mywork/approved", authenticateToken, async (req, res) => {
 // get all review requests
 router.get("/requests", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -483,7 +493,7 @@ router.get("/requests", authenticateToken, async (req, res) => {
 // get mywork review requests
 router.get("/mywork/requests", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [210])){
+    if(!checkPermissions(req.permissions, [210, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 

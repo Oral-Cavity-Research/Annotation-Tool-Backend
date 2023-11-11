@@ -11,7 +11,7 @@ require("dotenv").config();
 
 // GET route to get the % of risk habits
 router.get("/percentages", authenticateToken, async (req, res) => {
-  if (!checkPermissions(req.permissions, [110])) {
+  if (!checkPermissions(req.permissions, [110,90])) {
     return res.status(401).json({ message: "Unauthorized access" });
   }
   try {
@@ -48,7 +48,7 @@ router.get("/percentages", authenticateToken, async (req, res) => {
 
 // GET route to get the total number of doctors, images and patients
 router.get("/totals", authenticateToken, async (req, res) => {
-  if (!checkPermissions(req.permissions, [110])) {
+  if (!checkPermissions(req.permissions, [110,90])) {
     return res.status(401).json({ message: "Unauthorized access" });
   }
   try {

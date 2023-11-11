@@ -51,7 +51,7 @@ router.post("/add/:id", authenticateToken, async (req, res) => {
 // get all entries added by user
 router.get("/get", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [300])){
+    if(!checkPermissions(req.permissions, [300, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -97,7 +97,7 @@ router.get("/get", authenticateToken, async (req, res) => {
 // get patients entries
 router.get("/get/patient/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [300])){
+    if(!checkPermissions(req.permissions, [300, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -132,7 +132,7 @@ router.get("/get/patient/:id", authenticateToken, async (req, res) => {
 // id is patient _id
 router.get("/shared/patient/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [200])){
+    if(!checkPermissions(req.permissions, [200, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -184,7 +184,7 @@ router.get("/shared/patient/:id", authenticateToken, async (req, res) => {
 // id is entry _id
 router.get("/get/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [300])){
+    if(!checkPermissions(req.permissions, [300, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -345,7 +345,7 @@ router.post("/delete/:id", authenticateToken, async (req, res) => {
 // get all shared entries
 router.get("/shared/all", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [200])){
+    if(!checkPermissions(req.permissions, [200, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -385,7 +385,7 @@ router.get("/shared/all", authenticateToken, async (req, res) => {
 // id is entry _id
 router.get("/shared/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [200])){
+    if(!checkPermissions(req.permissions, [200, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -416,7 +416,7 @@ router.get("/shared/:id", authenticateToken, async (req, res) => {
 // id is assignment _id
 router.get("/shared/data/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [200])){
+    if(!checkPermissions(req.permissions, [200, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 
@@ -457,7 +457,7 @@ router.get("/shared/data/:id", authenticateToken, async (req, res) => {
 // id is entry _id
 router.get("/reviews/:id", authenticateToken, async (req, res) => {
 
-    if(!checkPermissions(req.permissions, [200, 300])){
+    if(!checkPermissions(req.permissions, [200, 300, 90])){
         return res.status(401).json({ message: "Unauthorized access"});
     }
 

@@ -13,7 +13,7 @@ require("dotenv").config();
 // get all requests
 router.get("/requests", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [100])){
+  if(!checkPermissions(req.permissions, [100, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 
@@ -29,7 +29,7 @@ router.get("/requests", authenticateToken, async (req, res) => {
 // get one request
 router.get("/requests/:id", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [100])){
+  if(!checkPermissions(req.permissions, [100, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 
@@ -148,7 +148,7 @@ router.post("/accept/:id", authenticateToken, async (req, res) => {
 // only for read or write access permissions
 router.get("/users/role/:role", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [106, 107])){
+  if(!checkPermissions(req.permissions, [106, 107, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
   
@@ -169,7 +169,7 @@ router.get("/users/role/:role", authenticateToken, async (req, res) => {
 // get all the user roles
 router.get("/roles", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [106, 107, 100, 109])){
+  if(!checkPermissions(req.permissions, [106, 107, 100, 109, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
   
@@ -184,7 +184,7 @@ router.get("/roles", authenticateToken, async (req, res) => {
 // get one user role
 router.get("/roles/:id", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [109])){
+  if(!checkPermissions(req.permissions, [109, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
   
@@ -273,7 +273,7 @@ router.post("/roles/:id", authenticateToken, async (req, res) => {
 // get a specific user
 router.get("/users/:id", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [106, 107])){
+  if(!checkPermissions(req.permissions, [106, 107, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 
@@ -481,7 +481,7 @@ router.post("/hospitals/delete/:id", authenticateToken, async (req, res) => {
 // get hospital details
 router.get("/hospitals/:id", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [101])){
+  if(!checkPermissions(req.permissions, [101, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
   

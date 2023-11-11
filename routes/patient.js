@@ -74,7 +74,7 @@ router.post("/update/:id", authenticateToken ,async (req, res) => {
 // get all patients
 router.get("/get", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [300])){
+  if(!checkPermissions(req.permissions, [300, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 
@@ -165,7 +165,7 @@ router.post("/check", authenticateToken, async (req, res) => {
 // get one patient
 router.get("/:id", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [300])){
+  if(!checkPermissions(req.permissions, [300, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 
@@ -191,7 +191,7 @@ router.get("/:id", authenticateToken, async (req, res) => {
 // id is patients _id
 router.get("/shared/:id", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [200])){
+  if(!checkPermissions(req.permissions, [200, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 
@@ -218,7 +218,7 @@ router.get("/shared/:id", authenticateToken, async (req, res) => {
 // get available reviewers
 router.get("/reviewer/all", authenticateToken, async (req, res) => {
 
-  if(!checkPermissions(req.permissions, [300, 200])){
+  if(!checkPermissions(req.permissions, [300, 200, 90])){
     return res.status(401).json({ message: "Unauthorized access"});
   }
 

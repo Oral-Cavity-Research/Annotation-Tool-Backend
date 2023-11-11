@@ -30,7 +30,12 @@ router.post("/get", authenticateToken, async (req, res) => {
 });
 
 // add new options
-router.post("/add/:name", async (req, res) => {
+router.post("/add/:name", authenticateToken, async (req, res) => {
+
+  if(!checkPermissions(req.permissions, [100])){
+    return res.status(401).json({ message: "Unauthorized access"});
+  }
+  
   try {
     const option = await Option.findOne({name: {$regex: `^${req.params.name}$`, $options: "i"}});
     
@@ -60,7 +65,11 @@ router.post("/add/:name", async (req, res) => {
 
 
 // update options
-router.post("/update/:name", async (req, res) => {
+router.post("/update/:name", authenticateToken, async (req, res) => {
+
+  if(!checkPermissions(req.permissions, [100])){
+    return res.status(401).json({ message: "Unauthorized access"});
+  }
   try {
     const option = await Option.findOne({name: {$regex: `^${req.params.name}$`, $options: "i"}});
     
