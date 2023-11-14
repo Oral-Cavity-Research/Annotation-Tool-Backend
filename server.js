@@ -26,7 +26,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on localhost:${PORT}`);
 });
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("Welcome to server! this is server side test");
   
     // request({
