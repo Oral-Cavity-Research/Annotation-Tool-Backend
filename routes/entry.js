@@ -550,7 +550,7 @@ router.post("/review/:id", authenticateToken, async (req, res) => {
     try {
       const entry = await TeleConEntry.findById(req.params.id);
   
-      if (entry && entry.reviewers?.includes(req._id)) {
+      if (entry && entry.reviewers.includes(req._id)) {
 
             const newReview = {
                 telecon_entry_id: req.params.id,

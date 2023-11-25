@@ -9,7 +9,7 @@ const DBUser = require('../models/DBUser');
 require('dotenv').config()
 
 const checkPermissions = (permissions, allowed) =>{
-    return (permissions?.some(p => allowed.includes(p)))
+    return (permissions.some(p => allowed.includes(p)))
 }
 
 const setTokenCookie = (res, token) => {

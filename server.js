@@ -26,21 +26,21 @@ app.listen(PORT, () => {
   console.log(`Server is running on localhost:${PORT}`);
 });
 
-app.get("/", (req, res) => {
-  // res.send("Welcome to server! this is server side test");
+app.get("/api", (req, res) => {
+    res.send("Welcome to server! this is server side test");
   
-    request({
-        url: process.env.ML_BACKEND + "hello",
-        method: "GET",
-        json: true,   // <--Very important!!!
-        body: req.body
-    }, function (error, response, body){
-      if(error){
-        console.log(error)
-      }else{
-        console.log(error)
-      }
-    });    
+    // request({
+    //     url: process.env.ML_BACKEND + "hello",
+    //     method: "GET",
+    //     json: true,   // <--Very important!!!
+    //     body: req.body
+    // }, function (error, response, body){
+    //   if(error){
+    //     console.log(error)
+    //   }else{
+    //     console.log(error)
+    //   }
+    // });    
 });
 
 // import routes
