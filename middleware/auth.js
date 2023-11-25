@@ -4,6 +4,7 @@ const User = require('../models/User');
 const randomToken = require('rand-token');
 const RefreshToken = require('../models/RefreshToken');
 const Role = require("../models/Role");
+const DBUser = require('../models/DBUser');
 
 require('dotenv').config()
 
@@ -118,6 +119,28 @@ const authenticateToken = async(req, res , next) =>{
     }
 }
 
+const authenticateDatasetViewToken = async(req, res , next) =>{
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1];
+    const email = req.headers.email;
+
+    try{
+        decodeRes= jwt.verify(token,process.env.ACCESS_SECRET );
+
+        const user = await DBUser.findOne({email: decodeRes.sub});
+        if(!user || user.email !== email){
+            return  res.status(401).json({message: "Unauthorized access"})
+        }
+
+        req.email = decodeRes.sub
+        req._id = user._id        
+        next();
+    }catch(error){
+        // console.log(error)
+        res.status(401).json({success: false, message: error.message})
+    }
+}
+
 module.exports = {generateRefreshToken,
     generateAccessToken,
     getRefreshToken,
@@ -126,5 +149,6 @@ module.exports = {generateRefreshToken,
     revokeToken,
     setTokenCookie,
     authenticateToken,
+    authenticateDatasetViewToken,
     checkPermissions
 };

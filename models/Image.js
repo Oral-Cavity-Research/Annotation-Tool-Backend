@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const ImageSchema = new mongoose.Schema(
   {
-    telecon_entry_id: {
+    patient: {
       type: mongoose.Types.ObjectId,
-      ref: "TeleConEntry",
-      required: false
+      ref: "Patient",
+      required: false,
     },
     image_name: {
       type: String,
