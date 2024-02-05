@@ -4,7 +4,7 @@ const Image = require('../models/Image');
 const { authenticateToken, checkPermissions } = require("../middleware/auth");
 const AnnotationHistory = require('../models/AnnotationHistory');
 
-router.post('/update/:_id', authenticateToken, async(req, res)=>{
+router.post('/update/category/:_id', authenticateToken, async(req, res)=>{
 
     if(!checkPermissions(req.permissions, [210])){
         return res.status(401).json({ message: "Unauthorized access"});
@@ -23,6 +23,42 @@ router.post('/update/:_id', authenticateToken, async(req, res)=>{
                 action: "Commented",
                 title: "Category is updated",
                 comment: `Category is changed from "${req.body.prevCategory}" to "${req.body.category}"`,
+    
+            });
+    
+            const comment =  await newComment.save();
+            const updatedimage = await Image.findByIdAndUpdate(req.params._id, {last_comment:comment._id});
+
+        }catch(e){
+            console.log("error in adding a comment: ",e)
+        }
+
+        return res.status(200).json({message:"Image data updated successfully"});
+
+    }catch(err){
+        return res.status(500).json(err)
+    }
+})
+
+router.post('/update/clinicaldiagnosis/:_id', authenticateToken, async(req, res)=>{
+
+    if(!checkPermissions(req.permissions, [210])){
+        return res.status(401).json({ message: "Unauthorized access"});
+    }
+
+    try{
+       
+        const images = await Image.findByIdAndUpdate(req.params._id, {
+            clinical_diagnosis: req.body.clinicalDiagnosis
+        });
+
+        try{
+            const newComment = new AnnotationHistory({
+                annotator: req._id,
+                image: req.params._id,
+                action: "Commented",
+                title: "Clinical Diagnosis is updated",
+                comment: `Clinical Diagnosis is changed from "${req.body.prevClinicalDiagnosis}" to "${req.body.clinicalDiagnosis}"`,
     
             });
     
