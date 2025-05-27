@@ -21,7 +21,7 @@ router.get("/:name", authenticateToken, async (req, res) => {
 // get list of options
 router.post("/get", authenticateToken, async (req, res) => {  
   try {
-      const options = await Option.find({name: { $in: req.body.option_names } });
+      const options = await Option.find();
       return res.status(200).json(options);
       
   } catch (err) {
@@ -40,7 +40,24 @@ router.post("/add/:name", authenticateToken, async (req, res) => {
     const option = await Option.findOne({name: {$regex: `^${req.params.name}$`, $options: "i"}});
     
     if (!option) {
-      return res.status(401).json({message: "Option does not exists" });
+      // return res.status(401).json({message: "Option does not exists" });
+      const newOption = new Option({
+                  name: req.params.name,
+                  options: [{
+                    label: req.body.label, 
+                    value: req.body.label,
+                    description:req.body.description,
+                    active: true
+                  }]
+                });
+      
+                try{
+                  const savedOption = await newOption.save();
+                  res.status(200).json({ message: "Option saved successfully" });
+                }catch(err){
+                  res.status(500).json({message: "Optiona saving failed" });
+                }
+
 
     } else {
 
