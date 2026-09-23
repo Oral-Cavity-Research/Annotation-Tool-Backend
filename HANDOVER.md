@@ -89,7 +89,7 @@ Main key: `MONGODB_URI` (database URL).
 
 The live app uses a **remote** Mongo host on the internal network, not a database on Oasis itself. Do **not** set this to `localhost` or `127.0.0.1` unless the owner has installed a local Mongo again.
 
-YOU MUST back up the entire MongoDB cluster.
+⚠️ YOU MUST back up the entire MongoDB cluster.
 - The cluster contains multiple databases and collections. Do not back up individual collections only. The full cluster must be backed up. 
 - Rename the backup folder using a meaningful name with the date. Example: db_backup_2026-09-23. 
 - Add a README with relevant backup details.
@@ -122,7 +122,7 @@ git pull
 
 Restart the backend after a pull that changes server code.
 
-Image Storage Backup:
+⚠️ Image Storage Backup:
 - YOU MUST back up the entire Storage/images directory.
 - Rename the directory using a meaningful name and date. Example: images_backup_2026-09-23
 - Remove the backup data from the server to optimize storage usage.
